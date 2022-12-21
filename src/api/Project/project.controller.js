@@ -38,7 +38,10 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return;
+                return res.json({
+                    success: 0,
+                    message: err.message
+                });
             }
             if(!results) {
                 return res.status(404).json({
@@ -58,7 +61,10 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return;
+                return res.json({
+                    success: 0,
+                    message: err.message
+                });
             }
             if(!results){
                 return res.json({
