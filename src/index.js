@@ -15,6 +15,9 @@ app.use('/api/users', userRouter)
 const projectRouter = require('./api/Project/project.router')
 app.use('/api/projects', projectRouter)
 
+const projectUpdateRouter = require('./api/ProjectUpdate/projectupdate.router')
+app.use('/api/projectupdates', projectUpdateRouter)
+
 app.get("/api", (req, res) => {
     res.json({
         message: "The API is working correctly!"
