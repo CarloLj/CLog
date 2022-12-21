@@ -47,7 +47,7 @@ module.exports = {
         )
     },
     updateProjectUpdate: (data, callBack) => {
-        const query = `UPDATE projectupdate SET update_id=?, project_id=?, type=?, created_at=?, name=?, description=? 
+        const query = `UPDATE projectupdate SET type=?, name=?, description=? 
             WHERE update_id=?`
         if (!Object.values(ValidTypes).includes(data.type)){
             return callBack({message: 'Could not update, invalid type'})
@@ -55,10 +55,7 @@ module.exports = {
         pool.query(
             query,
             [
-                data.update_id,
-                data.project_id,
                 data.type,
-                data.created_at,
                 data.name,
                 data.description,
                 data.id
