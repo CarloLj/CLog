@@ -1,4 +1,4 @@
-const { createUser , getUserByUserEmail } = require('./user.service');
+const { createUser , getUserByUserEmail, checkEmail} = require('./user.service');
 
 const bcrypt = require("bcryptjs");
 const { sign } = require('jsonwebtoken')
@@ -8,20 +8,39 @@ module.exports = {
     signUp: (req, res) => {
         const body = req.body;
         body.password = bcrypt.hashSync(body.password, parseInt(process.env.JWT_SALT))
-        createUser(body, (err, results) => {
-            // if callback returns error
-            if(err) {
-                console.log(err)
-                return res.status(500).json({
+        // Si ya existe el email del usuario
+        checkEmail(body.email, (err, results) => {
+            if (err) {
+                console.log(err);
+                return err
+            }
+            if (results) {
+                return res.json({
                     success: 0,
-                    message: "Database connection error"
+                    message: "User already registered with that email"
                 });
             }
-            return res.status(200).json({
-                success: 1,
-                data: results
-            });
-        });
+            if (!body.username || body.username === "") {
+                return res.json({
+                    success: 0,
+                    message: "Invalid Username"
+                });
+            }
+            createUser(body, (err, results) => {
+                // if callback returns error
+                if (err) {
+                    console.log(err)
+                    return res.status(500).json({
+                        success: 0,
+                        message: "Database connection error"
+                    });
+                }
+                return res.status(200).json({
+                    success: 1,
+                    data: results
+                });
+            }) 
+        })
     },
     login: (req, res) => {
         const body = req.body;
@@ -32,7 +51,7 @@ module.exports = {
             if (!results) {
                 return res.json({
                     success: 0,
-                    data: "Invalid email or password"
+                    message: "Invalid email or password"
                 });
             }
             const result = bcrypt.compareSync(body.password, results.password)
@@ -45,12 +64,13 @@ module.exports = {
                 return res.json({
                     success: 1,
                     message: "Login success",
+                    user: results,
                     token: jsontoken
                 });
             } else {
                 return res.json({
                     success: 0,
-                    data: "Invalid email or password"
+                    message: "Invalid email or password"
                 });
             }
         });
