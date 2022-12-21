@@ -62,7 +62,7 @@ module.exports = {
         )
     },
     updateProject: (data, callBack) => {
-        const query = `UPDATE project SET project_id=?, creator_id=?, status=?, created_at=?, name=?, description=? 
+        const query = `UPDATE project SET status=?, name=?, description=? 
             WHERE project_id=?`
         if (!Object.values(ValidStatuses).includes(data.status)){
             return callBack({message: 'Could not update, invalid status'})
@@ -70,10 +70,7 @@ module.exports = {
         pool.query(
             query,
             [
-                data.project_id,
-                data.creator_id,
                 data.status,
-                data.created_at,
                 data.name,
                 data.description,
                 data.id
