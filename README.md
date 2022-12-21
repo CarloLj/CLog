@@ -63,7 +63,20 @@
 	    - Solo elimina si existe el id de proyecto a eliminar
 
 ## RelevantPoint:
-	(GET) Get RelevantPoints
-	(POST) Create RelevantPoint
-	(PUT) Modify RelevantPoint
-	(DELETE) Delete RelevantPoint
+	(GET) Get Relevant Points by update_id [X] 
+        - Solo con token valido
+	    - Retorna todos los relevant points con id de project update especificado
+
+	(POST) Create RelevantPoint [X] 
+	    - Solo con token valido
+	    - No permite crear si el update_id es invalido
+	    - Necesita tener descripcion distinta de nulo	
+
+	(PUT) Modify RelevantPoint [X]
+	    - Solo con token valido
+	    - Solo si existe el id de relevant point a modificar
+	    - Necesita tener descripcion distinta de nulo	
+
+	(DELETE) Delete RelevantPoint [X] 
+	    - Solo con token valido
+	    - Solo elimina si existe el id de relevant point a eliminar
