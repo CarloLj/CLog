@@ -1,4 +1,3 @@
-const { Console } = require("console");
 const pool = require("../../config/database");
 
 const ValidStatuses = {
@@ -21,7 +20,7 @@ module.exports = {
         pool.query(
             query,
             [
-                data.project_id,
+                null,
                 data.creator_id,
                 data.status,
                 data.created_at,
