@@ -49,7 +49,7 @@ module.exports = {
                 console.log(err);
             }
             if (!results) {
-                return res.json({
+                return res.status(401).json({
                     success: 0,
                     message: "Invalid email or password"
                 });
@@ -61,14 +61,14 @@ module.exports = {
                 const jsontoken = sign({ result: results }, process.env.JWT_ENCRYPTION, {
                     expiresIn: "8h"
                 });
-                return res.json({
+                return res.status(200).json({
                     success: 1,
                     message: "Login success",
                     user: results,
                     token: jsontoken
                 });
             } else {
-                return res.json({
+                return res.status(401).json({
                     success: 0,
                     message: "Invalid email or password"
                 });

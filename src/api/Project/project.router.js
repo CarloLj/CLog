@@ -7,7 +7,7 @@ const { checkToken } = require('../../auth/token_validation');
 router.post("/", checkToken, createProject);
 router.patch("/", checkToken, updateProject);
 router.get("/", checkToken, getProjects);
-router.get("/intelligent", checkToken, intelligentDynamicProjectGetter)
+router.get("/intelligent", checkToken, intelligentDynamicProjectGetter);
 router.get("/:id", checkToken, getProjectById);
 router.delete("/", checkToken, deleteProject);
 

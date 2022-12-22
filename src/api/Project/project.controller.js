@@ -36,7 +36,18 @@ module.exports = {
         })
     },
     intelligentDynamicProjectGetter: (req, res) => {
-        const body = req.body;
+        let body = {
+            project_id: req.query.project_id, 
+            creator_id: req.query.creator_id, 
+            status: req.query.status, 
+            created_at: req.query.created_at,
+            name: req.query.name, 
+            description: req.query.description, 
+            order_arrange: req.query.order_arrange, 
+            project_field: req.query.project_field, 
+            current_page: req.query.current_page,
+            paginationJump: req.query.paginationJump,  
+        };
         intelligentDynamicProjectGetter(body, (err, results) => {
             // if callback returns error
             if(err) {
