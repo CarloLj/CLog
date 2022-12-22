@@ -115,7 +115,10 @@ module.exports = {
         deleteProject(data, (err, results) => {
             if(err) {
                 console.log(err)
-                return;
+                return res.status(500).json({
+                    success: 0,
+                    message: err.message
+                });
             }
             if(results){
                 if(results.affectedRows == 0) {
