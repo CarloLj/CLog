@@ -16,6 +16,9 @@
 
 - Generacion y verificacion de token en cada llamada CRUD del API para cada entidad [X]
 
+- Filtrado Inteligente para proyectos[X]
+
+- Paginación [X]
 
 ## User:
 	(POST) signUp [X]
@@ -27,13 +30,13 @@
 	
 ## Project:
 	(GET) Get Projects [X] 
-		- Solo con token valido
+	    - Solo con token valido
 	
 	(GET) Get Projects with intelligent filtering [X] 
-		- Solo con token valido
-		- Se puede filtrar por cada uno de los valores de project
-		- Se puede filtrar por nombre de usuario (inner join)
-		- Paginacion 
+	    - Solo con token valido
+            - Se puede filtrar por cada uno de los valores de project
+	    - Se puede filtrar por nombre de usuario (inner join)
+	    - Paginacion 
 
 	(POST) Create Project [X] 
 	    - Solo con token valido
