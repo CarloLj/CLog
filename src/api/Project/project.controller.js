@@ -1,4 +1,4 @@
-const { create, getProjects, getProjectById, updateProject, deleteProject } = require('./project.service');
+const { create, getProjects, getProjectById, updateProject, deleteProject, intelligentDynamicProjectGetter } = require('./project.service');
 
 module.exports = {
     createProject: (req, res) => {
@@ -24,7 +24,27 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return;
+                return res.json({
+                    success: 0,
+                    message: err
+                })
+            }
+            return res.json({
+                success: 1,
+                data: results
+            })
+        })
+    },
+    intelligentDynamicProjectGetter: (req, res) => {
+        const body = req.body;
+        intelligentDynamicProjectGetter(body, (err, results) => {
+            // if callback returns error
+            if(err) {
+                console.log(err)
+                return res.json({
+                    success: 0,
+                    message: err
+                })
             }
             return res.json({
                 success: 1,

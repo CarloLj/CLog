@@ -1,4 +1,5 @@
 const pool = require("../../config/database");
+const { getProjectIdsByUsernameAlike } = require("../utils/ProjectUser")
 
 const ValidStatuses = {
 	Active: "active",
@@ -6,6 +7,20 @@ const ValidStatuses = {
 	Cancelled: "cancelled",
 	OnHold: "on_hold",
     Planned: "planned"
+}
+
+const FilterFields = {
+    Id: "project_id",
+    CreatorId: "creator_id",
+    Status: "status",
+    CreatedAt: "created_at",
+	Name: "name",
+    Description: "description",
+}
+
+const OrderArrangments = {
+	AscendingOrder: "ASC",
+	DescendingOrder: "DESC",
 }
 
 module.exports = {
@@ -37,6 +52,8 @@ module.exports = {
     },
     getProjects: (data, callBack) => {
         const query = "SELECT * FROM project"
+        const currentPage = data.current_page;
+        const paginationJump = data.pagination_jump;
         pool.query(
             query,
             (error, results, fields) => {
@@ -47,6 +64,60 @@ module.exports = {
                 return callBack(null, results)
             }
         );
+    },
+    intelligentDynamicProjectGetter: async (data, callBack) => {
+        let filters = "";
+        const orderArrange = data.order_arrange;
+        const projectField = data.project_field;
+        const currentPage = data.current_page;
+        const paginationJump = data.pagination_jump;
+        const creator_name = data.creator_name;
+        let project_ids_by_creator = []
+        let filterCount = 0;
+        if (creator_name) {
+            try{
+                project_ids_by_creator = await getProjectIdsByUsernameAlike(creator_name);
+                const project_ids = project_ids_by_creator.map(value => value.project_id);
+                const stringIds = project_ids.length > 0 ? project_ids.join(",") : "-1";
+                filters += "WHERE project_id IN (" + stringIds.toString() + ") " 
+                filterCount++;
+            } catch(error){
+                console.log(error)
+            }
+        }
+        // Si se repiten campos ignorar, crear un diccionario para asegurarlo
+        for ( i in data ) {
+            if (Object.values(FilterFields).includes(i)){
+                if(filterCount != 0){
+                    filters += "AND ";
+                } else {
+                    filters += "WHERE ";
+                }
+                if (typeof(data[i]) === 'string') {
+                    filters += i + " LIKE " +"'%"+ data[i.toString()]+ "%' ";
+                } else {
+                    filters += i + " = " + data[i] + " ";
+                }
+                filterCount++;
+            }
+        }
+        let query = "SELECT * FROM project " 
+            + filters
+            + (Object.values(OrderArrangments).includes(orderArrange) && Object.values(FilterFields).includes(projectField) ? "ORDER BY " + projectField + " " + orderArrange : "");
+            if (currentPage != null && paginationJump != null) {
+                query += " LIMIT " + paginationJump.toString() + " OFFSET " + ((currentPage) * paginationJump).toString();
+            } 
+        console.log(query)
+        pool.query(
+            query,
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error)
+                } 
+                results = results;
+                return callBack(null, results)
+            }
+        )
     },
     getProjectById: (id, callBack) => {
         const query = `SELECT * FROM project WHERE project_id = ?`
