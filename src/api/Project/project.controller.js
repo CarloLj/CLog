@@ -24,12 +24,12 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: err
                 })
             }
-            return res.json({
+            return res.status(200).json({
                 success: 1,
                 data: results
             })
@@ -53,12 +53,12 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: err
                 })
             }
-            return res.json({
+            return res.status(200).json({
                 success: 1,
                 data: results
             })
@@ -70,7 +70,7 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: err.message
                 });
@@ -81,7 +81,7 @@ module.exports = {
                     message: "Not found"
                 });
             }
-            return res.json({
+            return res.status(200).json({
                 success: 1,
                 data: results
             })
@@ -93,13 +93,13 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: err.message
                 });
             }
             if(!results){
-                return res.json({
+                return res.status(400).json({
                     success: 0,
                     message: "Failed to update project"
                 })
@@ -129,7 +129,7 @@ module.exports = {
                     message: 'Project deleted successfully'
                 })
             } else {
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: "Unknown error"
                 });
