@@ -4,7 +4,7 @@
 ## Database ER Diagram
 ![ERDiagram](https://user-images.githubusercontent.com/57503818/208507908-a2ee16c1-f1e2-46e7-9655-c9bda822d850.png)
 
-[CLog App](https://github.com/CarloLj/CLog-App)
+Check the Client APP -> [CLog App](https://github.com/CarloLj/CLog-App)
 
 ## Completed:
 
