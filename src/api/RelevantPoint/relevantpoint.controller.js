@@ -24,7 +24,10 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return;
+                return res.status(500).json({
+                    success: 0,
+                    message: err
+                })
             }
             if(!results) {
                 return res.status(404).json({
@@ -32,7 +35,7 @@ module.exports = {
                     message: "Not found"
                 });
             }
-            return res.json({
+            return res.status(200).json({
                 success: 1,
                 data: results
             })
@@ -44,14 +47,13 @@ module.exports = {
             // if callback returns error
             if(err) {
                 console.log(err)
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: err
                 });
             }
-            console.log(results)
             if(!results){
-                return res.json({
+                return res.status(400).json({
                     success: 0,
                     message: "Failed to update relevant point"
                 })
@@ -67,7 +69,10 @@ module.exports = {
         deleteRelevantPoint(data, (err, results) => {
             if(err) {
                 console.log(err)
-                return;
+                return res.status(500).json({
+                    success: 0,
+                    message: err
+                });
             }
             if(results){
                 if(results.affectedRows == 0) {
@@ -81,7 +86,7 @@ module.exports = {
                     message: 'Relevant point deleted successfully'
                 })
             } else {
-                return res.json({
+                return res.status(500).json({
                     success: 0,
                     message: "Unknown error"
                 });
