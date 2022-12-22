@@ -108,21 +108,39 @@ module.exports = {
                 }
             }
         }
-        let query = "SELECT * FROM project " 
+        const arrange = (Object.values(OrderArrangments).includes(orderArrange) && Object.values(FilterFields).includes(projectField) ? "ORDER BY " + projectField + " " + orderArrange : "");
+        let getSizeQuery = "SELECT COUNT(*) FROM project " 
             + filters
-            + (Object.values(OrderArrangments).includes(orderArrange) && Object.values(FilterFields).includes(projectField) ? "ORDER BY " + projectField + " " + orderArrange : "");
-            if (currentPage != null && paginationJump != null) {
-                query += " LIMIT " + paginationJump.toString() + " OFFSET " + ((currentPage) * paginationJump).toString();
-            } 
-        console.log(query)
+            + arrange
         pool.query(
-            query,
+            getSizeQuery,
             (error, results, fields) => {
                 if(error) {
                     return callBack(error)
                 } 
-                results = results;
-                return callBack(null, results)
+                const filteredProjectSize = results[0]["COUNT(*)"]
+                let query = "SELECT * FROM project " 
+                + filters
+                + arrange
+                if (currentPage != null && paginationJump != null) {
+                    query += " LIMIT " + paginationJump.toString() + " OFFSET " + ((currentPage) * paginationJump).toString();
+                } 
+                pool.query(
+                    query,
+                    (error, results, fields) => {
+                        if(error) {
+                            return callBack(error)
+                        } 
+                        let query = "SELECT * FROM project " 
+                        + filters
+                        + (Object.values(OrderArrangments).includes(orderArrange) && Object.values(FilterFields).includes(projectField) ? "ORDER BY " + projectField + " " + orderArrange : "");
+                        if (currentPage != null && paginationJump != null) {
+                            query += " LIMIT " + paginationJump.toString() + " OFFSET " + ((currentPage) * paginationJump).toString();
+                        } 
+                        results = results;
+                        return callBack(null, {results, filtered_projects_size: filteredProjectSize})
+                    }
+                )
             }
         )
     },
