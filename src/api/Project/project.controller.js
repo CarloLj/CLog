@@ -47,6 +47,7 @@ module.exports = {
             project_field: req.query.project_field, 
             current_page: req.query.current_page,
             paginationJump: req.query.paginationJump,  
+            creator_name: req.query.creator_name,
         };
         intelligentDynamicProjectGetter(body, (err, results) => {
             // if callback returns error
