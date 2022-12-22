@@ -46,7 +46,7 @@ module.exports = {
             order_arrange: req.query.order_arrange, 
             project_field: req.query.project_field, 
             current_page: req.query.current_page,
-            paginationJump: req.query.paginationJump,  
+            pagination_jump: req.query.pagination_jump,  
             creator_name: req.query.creator_name,
         };
         intelligentDynamicProjectGetter(body, (err, results) => {
