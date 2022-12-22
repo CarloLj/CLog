@@ -11,17 +11,20 @@ module.exports = {
         // Si ya existe el email del usuario
         checkEmail(body.email, (err, results) => {
             if (err) {
-                console.log(err);
-                return err
+                console.log(err)
+                return res.status(500).json({
+                    success: 0,
+                    message: "Database connection error"
+                });
             }
             if (results) {
-                return res.json({
+                return res.status(401).json({
                     success: 0,
                     message: "User already registered with that email"
                 });
             }
             if (!body.username || body.username === "") {
-                return res.json({
+                return res.status(401).json({
                     success: 0,
                     message: "Invalid Username"
                 });
@@ -46,7 +49,10 @@ module.exports = {
         const body = req.body;
         getUserByUserEmail(body.email, (err, results) => {
             if (err) {
-                console.log(err);
+                return res.status(500).json({
+                    success: 0,
+                    message: "Database connection error"
+                });
             }
             if (!results) {
                 return res.status(401).json({
