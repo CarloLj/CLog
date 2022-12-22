@@ -27,7 +27,13 @@
 	
 ## Project:
 	(GET) Get Projects [X] 
-	Solo con token valido
+		- Solo con token valido
+	
+	(GET) Get Projects with intelligent filtering [X] 
+		- Solo con token valido
+		- Se puede filtrar por cada uno de los valores de project
+		- Se puede filtrar por nombre de usuario (inner join)
+		- Paginacion 
 
 	(POST) Create Project [X] 
 	    - Solo con token valido

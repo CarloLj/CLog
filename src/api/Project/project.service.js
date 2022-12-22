@@ -52,8 +52,6 @@ module.exports = {
     },
     getProjects: (data, callBack) => {
         const query = "SELECT * FROM project"
-        const currentPage = data.current_page;
-        const paginationJump = data.pagination_jump;
         pool.query(
             query,
             (error, results, fields) => {
